@@ -464,7 +464,7 @@ export function WebPlayer() {
     const handleOnErrorPause = useCallback(() => {
         mediaPause();
         toast.error({
-            message: t('error.playbackPausedDueToError', { postProcess: 'sentenceCase' }),
+            message: t('error.playbackPausedDueToError'),
         });
     }, [mediaPause, t]);
 
