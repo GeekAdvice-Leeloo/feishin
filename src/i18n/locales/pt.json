@@ -425,7 +425,7 @@
             "openFile": "Mostrar faixa no gestor de ficheiros"
         },
         "playlist": {
-            "reorder": "Reordenar apenas disponível quando ordenado pelo id"
+            "reorder": "Reordenar apenas disponível quando ordenado pelo ID"
         },
         "playlistList": {
             "title": "$t(entity.playlist, {\"count\": 2})"
@@ -474,8 +474,8 @@
         "playSimilarSongs": "Tocar músicas similares",
         "previous": "Anterior",
         "queue_clear": "Limpar fila",
-        "queue_moveToBottom": "Mover selecionados para o topo",
-        "queue_moveToTop": "Mover selecionados para o fim",
+        "queue_moveToBottom": "Mover selecionados para o fim",
+        "queue_moveToTop": "Mover selecionados para o topo",
         "queue_remove": "Remover selecionados",
         "repeat": "Repetir",
         "repeat_all": "Repetir tudo",
@@ -511,18 +511,18 @@
         "buttonSize": "Tamanho do botão da barra de reprodução",
         "buttonSize_description": "O tamanho dos botões da barra de reprodução",
         "clearCache": "Limpar cache do navegador",
-        "clearCache_description": "Uma 'limpeza geral' do feishin. em adição a limpar o cache do feishin, limpa o cache do navegador (imagens gravadas e outros recursos). as credenciais de servidor e as configurações serão mantidas",
-        "clearQueryCache": "Limpar cache do feishin",
-        "clearQueryCache_description": "Uma 'limpeza leve' do feishin. isto irá renovar playlists, metadados de faixas, e resetar letras gravadas. as configurações, as credenciais de servidor e o cache de imagens serão mantidos",
+        "clearCache_description": "Uma 'limpeza geral' do Feishin. Em adição a limpar o cache do Feishin, limpa o cache do navegador (imagens gravadas e outros recursos). As credenciais de servidor e as configurações serão mantidas",
+        "clearQueryCache": "Limpar cache do Feishin",
+        "clearQueryCache_description": "Uma 'limpeza leve' do Feishin. Isto irá renovar playlists, metadados de faixas, e resetar letras gravadas. As configurações, as credenciais de servidor e o cache de imagens serão mantidos",
         "clearCacheSuccess": "Cache limpo com sucesso",
         "contextMenu": "Configuração do menu de contexto (clique do botão direito do rato)",
         "contextMenu_description": "Permite esconder elementos exibidos no menu quando clica num elemento com o botão direito. elementos não selecionados serão escondidos",
         "crossfadeDuration": "Duraçao de crossfade",
         "crossfadeDuration_description": "Define a duração do efeito crossfade",
         "crossfadeStyle_description": "Seleciona qual estilo de crossfade usado no player de áudio",
-        "customCssEnable": "Ativar css customizado",
-        "customCssEnable_description": "Permite escrever css customizado",
-        "customCssNotice": "Aviso: apesar de existir alguma higienização (url() e content: não são permitidas), o uso de css personalizado ainda pode representar riscos ao alterar a interface",
+        "customCssEnable": "Ativar CSS customizado",
+        "customCssEnable_description": "Permite escrever CSS customizado",
+        "customCssNotice": "Aviso: apesar de existir alguma higienização (URL() e content: não são permitidas), o uso de CSS personalizado ainda pode representar riscos ao alterar a interface",
         "customCss": "Css customizado",
         "disableLibraryUpdateOnStartup": "Desativar a verificação de novas versões na inicialização",
         "discordApplicationId": "{{discord}} ID da aplicação",

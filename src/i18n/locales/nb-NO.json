@@ -67,7 +67,7 @@
         "expand": "Utvid",
         "favorite": "Favoritt",
         "filters": "Filter",
-        "forceRestartRequired": "Ta omstart for å aktivere endringene... lukk meldingen for å ta omstart",
+        "forceRestartRequired": "Ta omstart for å aktivere endringene... Lukk meldingen for å ta omstart",
         "forward": "Framover",
         "gap": "Avstand",
         "home": "Hjem",
@@ -342,7 +342,7 @@
             "setExpiration": "Angi utløpstid",
             "success": "Del lenke som er kopiert til utklippstavlen (eller klikk her for å åpne)",
             "expireInvalid": "Utløpstid må være et fremtidig tidspunkt",
-            "copyToClipboard": "Kopier til kopitavle: Ctrl+C, Enter",
+            "copyToClipboard": "Kopier til kopitavle: Ctrl+C, enter",
             "successMustClick": "Opprettet deling. trykk her for å åpne"
         },
         "updateServer": {
@@ -538,13 +538,13 @@
             "title": "$t(entity.playlist, {\"count\": 2})"
         },
         "playlist": {
-            "reorder": "Omorganisering kun mulig ved sortering på id"
+            "reorder": "Omorganisering kun mulig ved sortering på ID"
         }
     },
     "player": {
         "addLast": "Legg til sist",
         "queue_remove": "Fjern valgte",
-        "queue_moveToBottom": "Flytt valgte til toppen",
+        "queue_moveToBottom": "Flytt valgte til bunnen",
         "addNext": "Legg til som neste",
         "favorite": "Favoritt",
         "mute": "Skru av lyden",
@@ -559,7 +559,7 @@
         "repeat": "Gjenta",
         "play": "Spill",
         "previous": "Forrige",
-        "queue_moveToTop": "Flytt valgte til bunnen",
+        "queue_moveToTop": "Flytt valgte til toppen",
         "playbackFetchNoResults": "Ingen sanger funnet",
         "playbackSpeed": "Avspillingshastighet",
         "playSimilarSongs": "Spill lignende sanger",

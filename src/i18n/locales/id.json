@@ -69,7 +69,7 @@
         "favorite": "Favorit",
         "filter_other": "Filter",
         "filters": "Filter",
-        "forceRestartRequired": "Perlu restart untuk menerapkan perubahan... tutup pemberitahuan untuk memulai ulang",
+        "forceRestartRequired": "Perlu restart untuk menerapkan perubahan... Tutup pemberitahuan untuk memulai ulang",
         "forward": "Maju",
         "gap": "Jarak",
         "home": "Beranda",
@@ -327,7 +327,7 @@
             "success": "Tautan berbagi berhasil disalin ke papan klip (atau klik di sini untuk membuka)",
             "expireInvalid": "Masa berlaku harus di masa depan",
             "createFailed": "Tidak dapat membuat sumber daya berbagi (Apakah berbagi diaktifkan?)",
-            "copyToClipboard": "Salin ke clipboard: Ctrl+C, Enter",
+            "copyToClipboard": "Salin ke clipboard: Ctrl+C, enter",
             "successMustClick": "Berbagi berhasil dibuat. klik di sini untuk membuka"
         },
         "updateServer": {
@@ -492,7 +492,7 @@
             "title": "Perintah"
         },
         "home": {
-            "explore": "Jelajahi dari pustaka Anda",
+            "explore": "Jelajahi dari pustaka anda",
             "mostPlayed": "Paling banyak diputar",
             "newlyAdded": "Rilis baru ditambahkan",
             "recentlyPlayed": "Baru saja diputar",
@@ -506,7 +506,7 @@
             "openFile": "Tampilkan lagu di pengelola file"
         },
         "playlist": {
-            "reorder": "Pengurutan ulang hanya diaktifkan saat mengurutkan berdasarkan id"
+            "reorder": "Pengurutan ulang hanya diaktifkan saat mengurutkan berdasarkan ID"
         },
         "playlistList": {
             "title": "$t(entity.playlist, {\"count\": 2})"
@@ -652,7 +652,7 @@
         "audioPlayer_description": "Pilih pemutar audio yang digunakan untuk pemutaran",
         "buttonSize": "Ukuran tombol bilah pemutaran",
         "buttonSize_description": "Ukuran tombol pada bilah pemutaran",
-        "webAudio_description": "Menggunakan audio web. Ini mengaktifkan fitur lanjutan seperti Replaygain. Nonaktifkan opsi ini jika Anda mengalami masalah",
+        "webAudio_description": "Menggunakan audio web. Ini mengaktifkan fitur lanjutan seperti ReplayGain. Nonaktifkan opsi ini jika anda mengalami masalah",
         "windowBarStyle": "Gaya bilah jendela",
         "windowBarStyle_description": "Pilih gaya bilah jendela",
         "zoom": "Persentase zoom",
@@ -668,13 +668,13 @@
         "crossfadeStyle_description": "Pilih gaya crossfade yang digunakan oleh pemutar audio",
         "customCssEnable": "Aktifkan CSS kustom",
         "customCssEnable_description": "Izinkan penulisan CSS kustom",
-        "customCssNotice": "Peringatan: meskipun ada beberapa sanitasi (melarang url() dan content:), menggunakan CSS kustom tetap dapat menimbulkan risiko dengan mengubah antarmuka",
+        "customCssNotice": "Peringatan: meskipun ada beberapa sanitasi (melarang URL() dan content:), menggunakan CSS kustom tetap dapat menimbulkan risiko dengan mengubah antarmuka",
         "customCss": "Css kustom",
-        "customCss_description": "Konten CSS kustom. Catatan: properti content dan URL jarak jauh tidak diizinkan. Pratinjau konten Anda ditampilkan di bawah. Kolom tambahan yang tidak Anda atur ada karena sanitasi",
+        "customCss_description": "Konten CSS kustom. Catatan: properti content dan URL jarak jauh tidak diizinkan. Pratinjau konten anda ditampilkan di bawah. Kolom tambahan yang tidak anda atur ada karena sanitasi",
         "customFontPath": "Jalur font kustom",
         "customFontPath_description": "Tentukan jalur font kustom yang akan digunakan aplikasi",
         "discordApplicationId": "ID aplikasi {{discord}}",
-        "discordApplicationId_description": "Id aplikasi untuk rich presence {{discord}} (default: {{defaultId}})",
+        "discordApplicationId_description": "ID aplikasi untuk rich presence {{discord}} (default: {{defaultId}})",
         "discordIdleStatus": "Tampilkan status tidak aktif dalam status aktivitas",
         "discordIdleStatus_description": "Ketika diaktifkan, memperbarui status saat pemutar tidak aktif",
         "discordListening": "Tampilkan status sebagai mendengarkan",
@@ -693,7 +693,7 @@
         "font": "Font",
         "font_description": "Tentukan font yang digunakan aplikasi",
         "fontType": "Jenis font",
-        "fontType_description": "Font bawaan memilih salah satu font yang disediakan oleh feishin. font sistem memungkinkan Anda memilih font apa pun yang disediakan oleh sistem operasi Anda. kustom memungkinkan Anda memberikan font Anda sendiri",
+        "fontType_description": "Font bawaan memilih salah satu font yang disediakan oleh Feishin. Font sistem memungkinkan anda memilih font apa pun yang disediakan oleh sistem operasi anda. Kustom memungkinkan anda memberikan font anda sendiri",
         "fontType_optionBuiltIn": "Font bawaan",
         "fontType_optionCustom": "Font kustom",
         "fontType_optionSystem": "Font sistem",
@@ -744,7 +744,7 @@
         "language_description": "Menetapkan bahasa untuk aplikasi ($t(common.restartRequired))",
         "lastfmApiKey": "Kunci API untuk {{lastfm}}",
         "lastfmApiKey_description": "Kunci API untuk {{lastfm}}. Diperlukan untuk sampul",
-        "lyricFetch": "Cari lirik di Internet",
+        "lyricFetch": "Cari lirik di internet",
         "lyricFetch_description": "Mencari lirik dari berbagai sumber di Internet",
         "lyricFetchProvider": "Penyedia untuk mencari lirik",
         "lyricFetchProvider_description": "Pilih penyedia untuk mengambil lirik dari",
@@ -786,7 +786,7 @@
         "replayGainMode_optionAlbum": "$t(entity.album, {\"count\": 1})",
         "replayGainMode_optionNone": "$t(common.none)",
         "replayGainMode_optionTrack": "$t(entity.track, {\"count\": 1})",
-        "replayGainPreamp": "Preamplifier (dB) {{ReplayGain}}",
+        "replayGainPreamp": "Preamplifier (db) {{ReplayGain}}",
         "replayGainPreamp_description": "Menyesuaikan gain preamplifier yang diterapkan ke nilai {{ReplayGain}}",
         "sampleRate_description": "Pilih rasio sampel output yang akan digunakan jika frekuensi sampel yang dipilih berbeda dari media yang sedang diputar. nilai di bawah 8000 akan menggunakan frekuensi default",
         "savePlayQueue_description": "Menyimpan antrean pemutaran saat aplikasi ditutup dan mengembalikannya saat dibuka",
@@ -877,7 +877,7 @@
         "discordPausedStatus": "Tampilkan rich presence saat dijeda",
         "discordRichPresence": "Rich presence {{discord}}",
         "discordServeImage": "Sajikan gambar {{discord}} dari server",
-        "discordServeImage_description": "Bagikan cover art untuk rich presence {{discord}} dari server itu sendiri, hanya tersedia untuk Jellyfin dan Navidrome. {{discord}} menggunakan bot untuk mengambil gambar, jadi server Anda harus dapat dijangkau dari internet publik",
+        "discordServeImage_description": "Bagikan cover art untuk rich presence {{discord}} dari server itu sendiri, hanya tersedia untuk Jellyfin dan Navidrome. {{discord}} menggunakan bot untuk mengambil gambar, jadi server anda harus dapat dijangkau dari internet publik",
         "enableAutoTranslation_description": "Aktifkan terjemahan secara otomatis saat lirik dimuat",
         "enableAutoTranslation": "Aktifkan terjemahan otomatis",
         "exportImportSettings_control_description": "Ekspor dan impor pengaturan melalui JSON",
@@ -886,10 +886,10 @@
         "exportImportSettings_control_title": "Impor / ekspor pengaturan",
         "exportImportSettings_destructiveWarning": "Mengimpor pengaturan bersifat destruktif, harap tinjau hal di atas sebelum mengklik \"impor\" di bawah!",
         "exportImportSettings_importBtn": "Impor pengaturan",
-        "exportImportSettings_importModalTitle": "Impor pengaturan feishin",
+        "exportImportSettings_importModalTitle": "Impor pengaturan Feishin",
         "exportImportSettings_importSuccess": "Pengaturan berhasil diimpor!",
         "exportImportSettings_notValidJSON": "File yang diberikan bukan JSON yang valid",
-        "exportImportSettings_offendingKeyError": "\"{{offendingKey}}\" tidak benar - {{reason}}",
+        "exportImportSettings_offendingKeyError": "\"{{offendingKey}}\" Tidak benar - {{reason}}",
         "followCurrentSong_description": "Gulirkan antrean putar secara otomatis ke lagu yang sedang diputar",
         "followCurrentSong": "Ikuti lagu saat ini",
         "homeFeatureStyle_description": "Mengontrol gaya carousel unggulan beranda",
@@ -989,7 +989,7 @@
         "playerItemConfiguration_description": "Konfigurasikan item apa yang ditampilkan, dan dalam urutan apa, pada pemutar layar penuh",
         "playerItemConfiguration": "Konfigurasi item pemutar",
         "sidebarPlaylistListFilterRegex_description": "Sembunyikan playlist di bilah sisi yang cocok dengan ekspresi reguler ini",
-        "sidebarPlaylistListFilterRegex_placeholder": "Mis. ^Daily Mix.*",
+        "sidebarPlaylistListFilterRegex_placeholder": "Mis. ^daily mix.*",
         "sidebarPlaylistListFilterRegex": "Regex filter playlist"
     },
     "table": {
@@ -1136,7 +1136,7 @@
         "primary": {
             "album": "$t(entity.album, {\"count\": 1})",
             "broadcast": "Siaran",
-            "ep": "Ep",
+            "ep": "EP",
             "other": "Lainnya",
             "single": "Single"
         },
@@ -1144,7 +1144,7 @@
             "audiobook": "Buku audio",
             "audioDrama": "Drama audio",
             "compilation": "Kompilasi",
-            "djMix": "Dj mix",
+            "djMix": "DJ mix",
             "demo": "Demo",
             "fieldRecording": "Rekaman lapangan",
             "interview": "Wawancara",
