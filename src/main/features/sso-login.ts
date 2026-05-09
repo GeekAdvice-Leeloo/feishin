@@ -1,6 +1,6 @@
 import { BrowserWindow, session } from 'electron';
 
-import { logFn } from '/@/main/utils';
+import { createLog } from '/@/main/utils';
 import { SSO_COOKIE_KEYS } from '/@/shared/constants/sso-cookie-keys';
 import { SsoLoginResponse } from '/@/shared/types/domain-types';
 
@@ -72,14 +72,14 @@ export const handleSsoLogin = async (
 
                 if (cookies[ssoCookieName]) {
                     stopPolling();
-                    logFn.info(`SSO cookie detected after ${attempts} poll(s)`);
+                    createLog({ message: `SSO cookie detected after ${attempts} poll(s)`, type: 'info' });
                     resolve(true);
                     return;
                 }
 
                 if (attempts >= COOKIE_POLL_MAX_ATTEMPTS) {
                     stopPolling();
-                    logFn.info(`SSO cookie poll timed out after ${attempts} attempts`);
+                    createLog({ message: `SSO cookie poll timed out after ${attempts} attempts`, type: 'info' });
                     resolve(false);
                 }
             }, COOKIE_POLL_INTERVAL);
@@ -123,7 +123,7 @@ export const handleSsoLogin = async (
             // Final check on close - ensures we capture cookie even if polling is still running
             const cookies = await checkCookiesForOrigin();
             const finalSuccess = success || !!cookies[ssoCookieName];
-            logFn.info(`SSO window closed. Cookie found: ${!!cookies[ssoCookieName]}, success: ${finalSuccess}`);
+            createLog({ message: `SSO window closed. Cookie found: ${!!cookies[ssoCookieName]}, success: ${finalSuccess}`, type: 'info' });
             resolve({ cookies, success: finalSuccess });
         });
     });
