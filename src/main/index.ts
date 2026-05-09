@@ -16,6 +16,7 @@ import {
     protocol,
     Rectangle,
     screen,
+    session,
     shell,
     Tray,
 } from 'electron';
@@ -30,7 +31,9 @@ import packageJson from '../../package.json';
 import { disableMediaKeys, enableMediaKeys } from './features/core/player/media-keys';
 import { shutdownServer } from './features/core/remote';
 import { store } from './features/core/settings';
+import { handleSsoLogin } from './features/sso-login';
 import MenuBuilder, { MenuPlaybackState } from './menu';
+import './features';
 import {
     autoUpdaterLogInterface,
     createLog,
@@ -40,7 +43,6 @@ import {
     isMacOS,
     isWindows,
 } from './utils';
-import './features';
 
 import { PlayerRepeat, PlayerStatus, PlayerType, TitleTheme } from '/@/shared/types/types';
 
@@ -580,6 +582,26 @@ async function createWindow(first = true): Promise<void> {
         return mainWindow?.webContents.session.clearCache();
     });
 
+    ipcMain.handle('window-clear-cookies', async (_event, url?: string) => {
+        if (url) {
+            // SECURITY: Validate URL against configured servers
+            const authStore = store.get('store_authentication') as any;
+            const serverList = authStore?.serverList || {};
+            const isValidUrl = Object.values(serverList).some((s: any) => s.url === url);
+
+            if (!isValidUrl) {
+                throw new Error('Unauthorized cookie clearing for unconfigured URL');
+            }
+
+            const cookies = await session.defaultSession.cookies.get({ url });
+            const removalPromises = cookies.map((cookie) => {
+                return session.defaultSession.cookies.remove(url, cookie.name);
+            });
+            return Promise.all(removalPromises);
+        }
+        return session.defaultSession.clearStorageData({ storages: ['cookies'] });
+    });
+
     ipcMain.handle(
         'app-check-for-updates',
         async (): Promise<{ updateAvailable: boolean; version?: string }> => {
@@ -688,6 +710,7 @@ async function createWindow(first = true): Promise<void> {
 
     mainWindow.on('closed', () => {
         ipcMain.removeHandler('window-clear-cache');
+        ipcMain.removeHandler('window-clear-cookies');
         ipcMain.removeHandler('app-check-for-updates');
         mainWindow = null;
     });
@@ -1012,6 +1035,7 @@ if (!singleInstance) {
             });
 
             createWindow();
+            ipcMain.handle('sso:login', handleSsoLogin);
             if (store.get('window_enable_tray', true)) {
                 createTray();
             }

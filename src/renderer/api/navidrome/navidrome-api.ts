@@ -6,6 +6,7 @@ import omitBy from 'lodash/omitBy';
 import qs from 'qs';
 
 import i18n from '/@/i18n/i18n';
+import { setupAxiosInterceptors } from '/@/renderer/api/sso-interceptor';
 import { authenticationFailure } from '/@/renderer/api/utils';
 import { useAuthStore } from '/@/renderer/store';
 import { getServerUrl } from '/@/renderer/utils/normalize-server-url';
@@ -297,11 +298,13 @@ export const contract = c.router({
     },
 });
 
-const axiosClient = axios.create({});
+const axiosClient = axios.create({ withCredentials: true });
 
 axiosClient.defaults.paramsSerializer = (params) => {
     return qs.stringify(params, { arrayFormat: 'repeat' });
 };
+
+setupAxiosInterceptors(axiosClient);
 
 const parsePath = (fullPath: string) => {
     const [path, params] = fullPath.split('?');
@@ -352,8 +355,11 @@ const limitedFail = debounce(authenticationFailure, RETRY_DELAY_MS);
 const TIMEOUT_ERROR = Error();
 
 axiosClient.interceptors.response.use(
-    (response) => {
-        const serverId = useAuthStore.getState().currentServer?.id;
+    async (response) => {
+        if (!response) return response;
+
+        const currentServer = useAuthStore.getState().currentServer;
+        const serverId = currentServer?.id;
 
         if (serverId) {
             const headerCredential = response.headers['x-nd-authorization'] as string | undefined;
@@ -369,7 +375,7 @@ axiosClient.interceptors.response.use(
 
         return response;
     },
-    (error) => {
+    async (error) => {
         if (error.response && error.response.status === 401) {
             const currentServer = useAuthStore.getState().currentServer;
 
@@ -535,7 +541,7 @@ export const ndApiClient = (args: {
                     return {
                         body: { data: response?.data, headers: response?.headers },
                         headers: response?.headers as any,
-                        status: response?.status,
+                        status: response?.status ?? 500,
                     };
                 }
                 throw e;

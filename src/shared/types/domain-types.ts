@@ -87,12 +87,15 @@ export type ServerListItem = {
     features?: ServerFeatures;
     id: string;
     isAdmin?: boolean;
+    isSsoProxy?: boolean;
     musicFolderId?: string[];
     name: string;
     preferInstantMix?: boolean;
     preferRemoteUrl?: boolean;
     remoteUrl?: string;
     savePassword?: boolean;
+    ssoCookieName?: string;
+    ssoCookies?: Record<string, string>;
     type: ServerType;
     url: string;
     userId: null | string;
@@ -417,6 +420,11 @@ export type Song = {
 type ApiContext = {
     pathReplace?: string;
     pathReplaceWith?: string;
+};
+
+export type SsoLoginResponse = {
+    cookies: Record<string, string>;
+    success: boolean;
 };
 
 type BaseEndpointArgs = {
