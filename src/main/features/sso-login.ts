@@ -1,7 +1,11 @@
 import { BrowserWindow, session } from 'electron';
 
+import { logFn } from '/@/main/utils';
 import { SSO_COOKIE_KEYS } from '/@/shared/constants/sso-cookie-keys';
 import { SsoLoginResponse } from '/@/shared/types/domain-types';
+
+const COOKIE_POLL_INTERVAL = 500; // ms
+const COOKIE_POLL_MAX_ATTEMPTS = 20; // 10 seconds total
 
 export const handleSsoLogin = async (
     _event: any,
@@ -24,38 +28,103 @@ export const handleSsoLogin = async (
         width: 600,
     });
 
+    // Parse the base URL (origin) for cookie matching
+    let baseUrl: string;
+    try {
+        const urlObj = new URL(url);
+        baseUrl = urlObj.origin;
+    } catch {
+        baseUrl = url;
+    }
+
     let success = false;
+    let pollInterval: NodeJS.Timeout | null = null;
+
+    const checkCookiesForOrigin = async (): Promise<Record<string, string>> => {
+        // Get ALL cookies from the session and filter by name
+        // This avoids URL-matching issues when redirects change the path/query
+        const allCookies = await session.defaultSession.cookies.get({});
+        const cookieMap: Record<string, string> = {};
+        for (const cookie of allCookies) {
+            // Match by cookie name (and optionally domain)
+            if (cookie.name === ssoCookieName) {
+                cookieMap[cookie.name] = cookie.value;
+            }
+        }
+        return cookieMap;
+    };
+
+    const stopPolling = () => {
+        if (pollInterval) {
+            clearInterval(pollInterval);
+            pollInterval = null;
+        }
+    };
+
+    const startCookiePolling = () => {
+        stopPolling();
+        let attempts = 0;
+
+        return new Promise<boolean>((resolve) => {
+            pollInterval = setInterval(async () => {
+                attempts++;
+                const cookies = await checkCookiesForOrigin();
+
+                if (cookies[ssoCookieName]) {
+                    stopPolling();
+                    logFn.info(`SSO cookie detected after ${attempts} poll(s)`);
+                    resolve(true);
+                    return;
+                }
+
+                if (attempts >= COOKIE_POLL_MAX_ATTEMPTS) {
+                    stopPolling();
+                    logFn.info(`SSO cookie poll timed out after ${attempts} attempts`);
+                    resolve(false);
+                }
+            }, COOKIE_POLL_INTERVAL);
+        });
+    };
 
     return new Promise((resolve) => {
         ssoWindow.loadURL(url);
 
-        const checkCookies = async () => {
-            const cookies = await session.defaultSession.cookies.get({ url });
-            const cookieMap: Record<string, string> = {};
-            cookies.forEach((cookie) => {
-                cookieMap[cookie.name] = cookie.value;
-            });
-            return cookieMap;
-        };
-
-        ssoWindow.on('closed', async () => {
-            const cookies = await checkCookies();
-            const finalSuccess = success || !!cookies[ssoCookieName];
-            resolve({ cookies, success: finalSuccess });
+        // Start polling for the cookie as soon as the window loads
+        // The cookie may be set after the page loads (via JavaScript redirect)
+        startCookiePolling().then((found) => {
+            if (found) {
+                success = true;
+            }
         });
 
-        // We could also poll or listen to navigation to see if we reached the app
-        // but often SSO proxies redirect back to the original URL.
-        ssoWindow.webContents.on('did-navigate', async (_event, navigatedUrl) => {
-            if (navigatedUrl.startsWith(url)) {
-                // Potential success, but let the user decide if they are done or wait for a specific cookie
-                const cookies = await checkCookies();
-                // If we see a typical SSO cookie, we might consider resolving early or just wait for window close.
-                if (cookies[ssoCookieName]) {
-                    success = true;
-                    ssoWindow.close();
-                }
+        // Also check on navigation - if we navigate away and come back with the cookie, we'll catch it
+        ssoWindow.webContents.on('did-navigate', async () => {
+            // On navigation, check immediately and start polling
+            const cookies = await checkCookiesForOrigin();
+            if (cookies[ssoCookieName]) {
+                success = true;
+                stopPolling();
+                ssoWindow.close();
             }
+        });
+
+        ssoWindow.webContents.on('did-navigate-in-page', async () => {
+            // Same-page navigations (like SPA redirects) also need a check
+            const cookies = await checkCookiesForOrigin();
+            if (cookies[ssoCookieName]) {
+                success = true;
+                stopPolling();
+                ssoWindow.close();
+            }
+        });
+
+        ssoWindow.on('closed', async () => {
+            stopPolling();
+            // Final check on close - ensures we capture cookie even if polling is still running
+            const cookies = await checkCookiesForOrigin();
+            const finalSuccess = success || !!cookies[ssoCookieName];
+            logFn.info(`SSO window closed. Cookie found: ${!!cookies[ssoCookieName]}, success: ${finalSuccess}`);
+            resolve({ cookies, success: finalSuccess });
         });
     });
 };
