@@ -75,7 +75,10 @@ export const ensureSsoAuth = async (
                                 });
                                 isResolved = true;
                                 closeAllModals();
-                                resolve(true);
+                                // Defer resolve to ensure closeAllModals completes and onClose fires first.
+                                // This prevents the modal's onClose handler from seeing isResolved=false
+                                // and triggering handleCancel after we've already resolved success.
+                                queueMicrotask(() => resolve(true));
                             } else {
                                 handleCancel();
                             }
