@@ -25,7 +25,10 @@ export const ensureSsoAuth = async (
     server: ServerListItemWithCredential,
     isInitialLogin = false,
 ): Promise<boolean> => {
-    if (pendingReauth) return pendingReauth;
+    if (pendingReauth) {
+        logFn.info(`SSO re-auth pending, waiting for existing attempt`);
+        return pendingReauth;
+    }
 
     let timedOut = false;
 
@@ -71,6 +74,7 @@ export const ensureSsoAuth = async (
                             }
 
                             if (result && result.success) {
+                                logFn.info(`SSO login succeeded, cookies stored for server: ${server.url}`);
                                 useAuthStore.getState().actions.updateServer(server.id, {
                                     ssoCookies: result.cookies,
                                 });
@@ -190,14 +194,16 @@ const handleSsoResponse = async (
     const isHtml = typeof contentType === 'string' && contentType.includes('text/html');
 
     if (isHtml && response.status === 200) {
-        logFn.info(`SSO HTML leak detected for server: ${server.url}`);
+        logFn.info(`SSO HTML leak detected for server: ${server.url}, triggering re-auth`);
         const success = await ensureSsoAuth(server);
         if (success) {
+            logFn.info(`SSO re-auth succeeded, retrying original request`);
             return axiosInstance.request({
                 ...response.config,
                 signal: abortController.signal,
             });
         }
+        logFn.info(`SSO re-auth failed/cancelled, throwing error`);
         throw new Error(SSO_CANCELLED_ERROR);
     }
 
@@ -215,13 +221,16 @@ const handleSsoError = async (
 
     const status = error?.response?.status;
     if (status === 401 || status === 403) {
+        logFn.info(`SSO auth error ${status} for server: ${server.url}, triggering re-auth`);
         const success = await ensureSsoAuth(server);
         if (success) {
+            logFn.info(`SSO re-auth succeeded, retrying original request`);
             return axiosInstance.request({
                 ...error.config,
                 signal: abortController.signal,
             });
         }
+        logFn.info(`SSO re-auth failed/cancelled, throwing error`);
         throw new Error(SSO_CANCELLED_ERROR);
     }
 
