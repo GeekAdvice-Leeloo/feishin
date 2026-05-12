@@ -6,7 +6,7 @@ import { useAuthStore } from '/@/renderer/store';
 import { logFn } from '/@/renderer/utils/logger';
 import { Button } from '/@/shared/components/button/button';
 import { Group } from '/@/shared/components/group/group';
-import { closeAllModals, openModal } from '/@/shared/components/modal/modal';
+import { closeAllModals, closeModal, openModal } from '/@/shared/components/modal/modal';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
 import { SSO_COOKIE_KEYS } from '/@/shared/constants/sso-cookie-keys';
@@ -55,6 +55,7 @@ export const ensureSsoAuth = async (
 
             return await new Promise<boolean>((resolve) => {
                 let isResolved = false;
+                let modalId: string | undefined;
 
                 const handleLogin = async () => {
                     try {
@@ -74,11 +75,14 @@ export const ensureSsoAuth = async (
                                     ssoCookies: result.cookies,
                                 });
                                 isResolved = true;
-                                closeAllModals();
-                                // Defer resolve to ensure closeAllModals completes and onClose fires first.
-                                // This prevents the modal's onClose handler from seeing isResolved=false
-                                // and triggering handleCancel after we've already resolved success.
-                                queueMicrotask(() => resolve(true));
+                                // Close by specific ID to ensure this exact modal closes
+                                if (modalId) {
+                                    closeModal(modalId);
+                                } else {
+                                    closeAllModals();
+                                }
+                                // Defer resolve past the modal close animation (300ms transition)
+                                setTimeout(() => resolve(true), 350);
                             } else {
                                 handleCancel();
                             }
@@ -103,7 +107,7 @@ export const ensureSsoAuth = async (
                     resolve(false);
                 };
 
-                openModal({
+                modalId = openModal({
                     children: (
                         <Stack gap="md">
                             <Text size="sm">{t('ssoInterceptor.description')}</Text>
@@ -128,8 +132,12 @@ export const ensureSsoAuth = async (
                                         <Button
                                             onClick={() => {
                                                 isResolved = true;
-                                                closeAllModals();
-                                                resolve(true);
+                                                if (modalId) {
+                                                    closeModal(modalId);
+                                                } else {
+                                                    closeAllModals();
+                                                }
+                                                setTimeout(() => resolve(true), 350);
                                             }}
                                             variant="filled"
                                         >
