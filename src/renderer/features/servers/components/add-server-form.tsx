@@ -154,19 +154,24 @@ export const AddServerForm = ({ onCancel }: AddServerFormProps) => {
             let ssoCookies: Record<string, string> | undefined;
             if (values.isSsoProxy) {
                 if (isElectron()) {
-                    const loginResult = await window.api.sso.login(
-                        values.url,
-                        values.ssoCookieName || SSO_COOKIE_KEYS.CLOUDFLARE_ACCESS,
-                    );
-                    if (!loginResult.success) {
+                    // For Electron, use ensureSsoAuth to avoid opening SSO window twice.
+                    // ensureSsoAuth handles the SSO login and stores cookies on temp server.
+                    const dummyServer = {
+                        id: 'temp',
+                        isSsoProxy: true,
+                        ssoCookieName: values.ssoCookieName,
+                        url: values.url,
+                    } as any;
+                    const authenticated = await ensureSsoAuth(dummyServer, true);
+                    if (!authenticated) {
                         setIsLoading(false);
-                        return toast.error({
-                            message: t('error.authenticationFailed', {
-                                postProcess: 'sentenceCase',
-                            }),
-                        });
+                        return;
                     }
-                    ssoCookies = loginResult.cookies;
+                    // retrieve the cookies that were stored on the temp server
+                    const tempServer = getServerById('temp');
+                    if (tempServer?.ssoCookies) {
+                        ssoCookies = tempServer.ssoCookies;
+                    }
                 } else {
                     // For web, we trigger the ensureSsoAuth modal to make sure the user is logged in
                     const dummyServer = {
