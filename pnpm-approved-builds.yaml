@@ -1,0 +1,6 @@
+onlyBuiltDependencies:
+  - abstract-socket
+  - electron
+  - electron-media-service
+  - electron-winstaller
+  - esbuild
