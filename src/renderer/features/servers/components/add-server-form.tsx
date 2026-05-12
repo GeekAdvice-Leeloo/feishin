@@ -14,7 +14,7 @@ import JellyfinIcon from '/@/renderer/features/servers/assets/jellyfin.png';
 import NavidromeIcon from '/@/renderer/features/servers/assets/navidrome.png';
 import SubsonicIcon from '/@/renderer/features/servers/assets/opensubsonic.png';
 import { IgnoreCorsSslSwitches } from '/@/renderer/features/servers/components/ignore-cors-ssl-switches';
-import { useAuthStoreActions, useServerList } from '/@/renderer/store';
+import { getServerById, useAuthStoreActions, useServerList } from '/@/renderer/store';
 import { Checkbox } from '/@/shared/components/checkbox/checkbox';
 import { Divider } from '/@/shared/components/divider/divider';
 import { Group } from '/@/shared/components/group/group';
@@ -179,6 +179,11 @@ export const AddServerForm = ({ onCancel }: AddServerFormProps) => {
                     if (!authenticated) {
                         setIsLoading(false);
                         return;
+                    }
+                    // retrieve the cookies that were stored on the temp server
+                    const tempServer = getServerById('temp');
+                    if (tempServer?.ssoCookies) {
+                        ssoCookies = tempServer.ssoCookies;
                     }
                 }
             }
