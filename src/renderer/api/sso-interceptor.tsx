@@ -25,6 +25,10 @@ export const ensureSsoAuth = async (
     server: ServerListItemWithCredential,
     isInitialLogin = false,
 ): Promise<boolean> => {
+    // Debug: log the call stack to understand what triggers re-auth
+    const stack = new Error().stack;
+    logFn.info(`ensureSsoAuth called: isInitialLogin=${isInitialLogin}, server=${server?.url}, stack: ${stack}`);
+
     if (pendingReauth) {
         logFn.info(`SSO re-auth pending, waiting for existing attempt`);
         return pendingReauth;
