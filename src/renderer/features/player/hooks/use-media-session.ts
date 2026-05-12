@@ -66,12 +66,14 @@ export const useMediaSession = () => {
     }, [stationName]);
 
     const isMediaSessionEnabled = useMemo(() => {
-        // Always enable media session on web
+        // Always enable media session on web (non-Electron)
         if (!isElectron()) {
             return true;
         }
 
-        return Boolean(mediaSessionEnabled && playbackType === PlayerType.WEB);
+        // Enable media session for all playback types when setting is enabled
+        // (LOCAL for Navidrome/Jellyfin/Subsonic streams, WEB for local files)
+        return Boolean(mediaSessionEnabled);
     }, [mediaSessionEnabled, playbackType]);
 
     useEffect(() => {

@@ -65,7 +65,7 @@ linux:
 toolsets:
     appimage: '1.0.2'
 
-npmRebuild: false
+npmRebuild: true
 afterAllArtifactBuild: scripts/after-all-artifact-build.mjs
 publish:
     provider: github
