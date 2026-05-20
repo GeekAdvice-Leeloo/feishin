@@ -81,7 +81,7 @@ mediaService.on('pause', () => {
     getMainWindow()?.webContents.send('renderer-player-pause');
 });
 
-mediaService.on('toggle', () => {
+mediaService.on('playPause', () => {
     getMainWindow()?.webContents.send('renderer-player-play-pause');
 });
 
