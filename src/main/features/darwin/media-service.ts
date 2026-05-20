@@ -9,6 +9,7 @@ const mediaService = new MediaService();
 
 // Track current state for metadata updates
 let currentSong: QueueSong | undefined;
+let currentImageUrl: string | null = null;
 let currentPosition = 0; // seconds
 let currentDuration = 0; // seconds
 let currentStatus: PlayerStatus = PlayerStatus.PAUSED;
@@ -56,6 +57,7 @@ const syncToMacOS = () => {
             duration: number;
             currentTime: number;
             state: 'playing' | 'paused' | 'stopped';
+            albumArt: string;
         } = {
             title: isRadio ? (currentSong.name || 'Radio') : (currentSong.name || ''),
             artist: isRadio ? (currentSong.artistName || '') : (currentSong.artistName || ''),
@@ -64,6 +66,7 @@ const syncToMacOS = () => {
             duration: currentDuration ? Math.round(currentDuration * 1000) : 0,
             currentTime: Math.round(currentPosition * 1000),
             state: stateMap[currentStatus] ?? 'paused',
+            albumArt: currentImageUrl || '',
         };
 
         mediaService.setMetaData(metadata);
@@ -106,8 +109,9 @@ mediaService.on('position', () => {
 });
 
 // Renderer → main IPC handlers
-ipcMain.on('update-song', (_event, song: QueueSong | undefined, _imageUrl: string | null) => {
+ipcMain.on('update-song', (_event, song: QueueSong | undefined, imageUrl: string | null) => {
     currentSong = song;
+    currentImageUrl = imageUrl;
     syncToMacOS();
 });
 
