@@ -7,7 +7,7 @@ import { logFn } from '/@/renderer/utils/logger';
 import { Button } from '/@/shared/components/button/button';
 import { Group } from '/@/shared/components/group/group';
 import { closeAllModals, openModal } from '/@/shared/components/modal/modal';
-import { closeAllModals as closeAllModalsMantine, closeModal as closeModalMantine } from '@mantine/modals';
+import { closeAllModals as closeAllModalsMantine } from '@mantine/modals';
 import { Stack } from '/@/shared/components/stack/stack';
 import { Text } from '/@/shared/components/text/text';
 import { SSO_COOKIE_KEYS } from '/@/shared/constants/sso-cookie-keys';
