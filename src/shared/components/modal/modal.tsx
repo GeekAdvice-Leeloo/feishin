@@ -1,6 +1,7 @@
 import { Modal as MantineModal, ModalProps as MantineModalProps } from '@mantine/core';
 import {
     closeAllModals as closeAllModalsMantine,
+    closeModal as closeModalMantine,
     ContextModalProps,
     ModalsProvider as MantineModalsProvider,
     ModalsProviderProps as MantineModalsProviderProps,
@@ -18,7 +19,7 @@ import { ScrollArea } from '/@/shared/components/scroll-area/scroll-area';
 import { Stack } from '/@/shared/components/stack/stack';
 
 export const openModal = openModalMantine;
-export const closeModal = (id: string) => openModalMantine.closeModal(id);
+export const closeModal = closeModalMantine;
 export const closeAllModals = closeAllModalsMantine;
 
 export interface ModalProps extends Omit<MantineModalProps, 'onClose'> {

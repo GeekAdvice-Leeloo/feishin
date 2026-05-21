@@ -28,14 +28,6 @@ export const handleSsoLogin = async (
         width: 600,
     });
 
-    // Parse the base URL (origin) for cookie matching
-    let baseUrl: string;
-    try {
-        const urlObj = new URL(url);
-        baseUrl = urlObj.origin;
-    } catch {
-        baseUrl = url;
-    }
 
     let success = false;
     let pollInterval: NodeJS.Timeout | null = null;

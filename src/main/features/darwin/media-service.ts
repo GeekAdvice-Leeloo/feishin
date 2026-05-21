@@ -96,13 +96,15 @@ mediaService.on('previous', () => {
     getMainWindow()?.webContents.send('renderer-player-previous');
 });
 
-mediaService.on('stop', () => {
+// @ts-expect-error - 'stop' not in type defs but supported by the native service
+(mediaService as unknown as Record<string, (cb: () => void) => void>).on('stop', () => {
     getMainWindow()?.webContents.send('renderer-player-stop');
 });
 
 // macOS queries position: the native side uses the currentTime we sent in setMetaData
 // and tracks elapsed time from there. We just need to make sure currentTime is fresh.
-mediaService.on('position', () => {
+// @ts-expect-error - 'position' not in type defs but supported by the native service
+(mediaService as unknown as Record<string, (cb: () => void) => void>).on('position', () => {
     // No action needed — the native service uses the last setMetaData's currentTime
     // and system clock to calculate current position. We push position updates
     // via setMetaData whenever position changes.
